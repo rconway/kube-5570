@@ -6,4 +6,10 @@ BIN_DIR="$(pwd)"
 
 trap "cd '${ORIG_DIR}'" EXIT
 
-k3d cluster create -p "8080:80@loadbalancer" -p "8443:443@loadbalancer" --agents 2 rconway
+mkdir -p "${HOME}/longhorn"
+
+k3d cluster create \
+  --agents 2 \
+  -p "8080:80@loadbalancer" -p "8443:443@loadbalancer" \
+  --volume ${HOME}/longhorn:/var/lib/longhorn:shared \
+  rconway
